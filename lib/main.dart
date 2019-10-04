@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:json_place_holder/drawer_item.dart';
+import 'package:json_place_holder/widgets/about.dart';
 
 void main() => runApp(MyApp());
 
@@ -85,18 +85,22 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: Column(children: <Widget>[
-                DrawerItem(
-                  title: "Option",
-                  icon: Icon(Icons.toc),
-                  onPressed: () {
-                    print("option is pressed");
+                ListTile(
+                  leading: Icon(Ic     ons.ac_unit),
+                  title: Text("Option"),
+                  onTap: () {
+                    print("option is tapped");
                   },
                 ),
-                DrawerItem(
-                  title: "About",
-                  icon: Icon(Icons.info_outline),
-                  onPressed: () {
-                    print("about is pressed");
+                ListTile(
+                  leading: Icon(Icons.info),
+                  title: Text("About"),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => About())
+                    );
                   },
                 )
               ],)
