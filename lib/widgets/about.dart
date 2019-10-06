@@ -18,7 +18,7 @@ class About extends StatelessWidget {
           subtitle: "This app is all about posts"
         ),
         AboutListItem(
-          title: "Develeloper",
+          title: "Developer",
           subtitle: "ohahlev@gmail.com"
         ),
         AboutListItem(

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:json_place_holder/models/post.dart';
+import 'package:json_place_holder/services/post_service.dart';
 import 'package:json_place_holder/widgets/about.dart';
+import 'package:json_place_holder/widgets/post_card.dart';
 
 void main() => runApp(MyApp());
 
@@ -44,6 +47,33 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+var posts = <Post> [
+  Post(
+    id: 1,
+    userId: 1,
+    title: "this is post title 1",
+    body: "this is post body 1" 
+  ),
+  Post(
+    id: 2,
+    userId: 1,
+    title: "this is post title 2",
+    body: "this is post body 2" 
+  ),
+  Post(
+    id: 3,
+    userId: 1,
+    title: "this is post title 3",
+    body: "this is post body 3" 
+  ),
+  Post(
+    id: 4,
+    userId: 2,
+    title: "this is post title 4",
+    body: "this is post body 4" 
+  )
+];
+
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
@@ -86,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.only(left: 8.0),
               child: Column(children: <Widget>[
                 ListTile(
-                  leading: Icon(Ic     ons.ac_unit),
+                  leading: Icon(Icons.ac_unit),
                   title: Text("Option"),
                   onTap: () {
                     print("option is tapped");
@@ -108,41 +138,20 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: ListView(
+        children: <Widget> [
+          FutureBuilder(
+            future: PostService.fetchPost(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return PostCard(post: snapshot.data);
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+            }
+          )
+        ]
+      )
     );
   }
 }
