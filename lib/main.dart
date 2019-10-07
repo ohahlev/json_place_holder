@@ -138,19 +138,22 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      body: ListView(
-        children: <Widget> [
-          FutureBuilder(
-            future: PostService.fetchPost(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return PostCard(post: snapshot.data);
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
+      body: FutureBuilder(
+        future: PostService.fetchPosts(),
+        builder: (context, snapshot) {
+          return ListView.builder(
+            itemCount: snapshot.data.length,
+            itemBuilder: (context, index) {
+              Post post = snapshot.data[index];
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  PostCard(post: post)
+                ],
+              );
             }
-          )
-        ]
+          );
+        }
       )
     );
   }
